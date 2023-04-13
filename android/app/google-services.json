@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "462846058228",
+    "project_id": "rafiharefa-8396d",
+    "storage_bucket": "rafiharefa-8396d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:462846058228:android:f896efaae98f2d2fb088a1",
+        "android_client_info": {
+          "package_name": "com.example.sistem_operasi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "462846058228-tsvq90la8acin58r395mb6qvcd9igb79.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqu6DQDiZDnLtzzLQnLZ_cGI3DspOmVzE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "462846058228-tsvq90la8acin58r395mb6qvcd9igb79.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
