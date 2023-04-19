@@ -8,7 +8,7 @@ class HomeController extends GetxController {
 
   RxList<PertemuanCard> card = RxList<PertemuanCard>([]);
 
-  void getCard() async{
+  Future<void> getCard() async{
     var querySnapshot = await FirebaseFirestore.instance.collection('Pertemuan').get();
 
     card.value = querySnapshot.docs.map((doc){
@@ -26,7 +26,6 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getCard();
   }
 
   @override

@@ -23,64 +23,70 @@ class HomeView extends GetView<HomeController> {
         child: Lottie.network('https://assets4.lottiefiles.com/packages/lf20_8zzltjyc.json', animate: true, height: 80),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-        child: Obx(() =>
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
+      body: FutureBuilder(
+        future: controller.getCard(),
+        builder: (context, snapshot) {
+          return snapshot.connectionState == ConnectionState.waiting ? Center(child: Lottie.network('https://assets6.lottiefiles.com/private_files/lf30_esg1l8r1.json')) :
+           Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+            child: Obx(() =>
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
 
-              Text('Operating System', style: GoogleFonts.poppins(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 40
-              )),
-              Text('by Risyad Rafi', style: GoogleFonts.poppins(color: Colors.black),),
+                  Text('Operating System', style: GoogleFonts.poppins(
+                    color: Colors.black, fontWeight: FontWeight.bold, fontSize: 40
+                  )),
+                  Text('by Risyad Rafi', style: GoogleFonts.poppins(color: Colors.black),),
 
-              SizedBox(height: 50),
+                  SizedBox(height: 50),
 
-              Expanded(
-                child: GridView.count(
-                    crossAxisCount: 3,
-                  childAspectRatio: 1.8,
-                  children: controller.card.map((PertemuanCard card){
-                   return Container(
-                     decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(10),
-                       image: DecorationImage(
-                           image: NetworkImage(card.imageUrl),
-                           fit: BoxFit.cover
-                       ),
-                     ),
+                  Expanded(
+                    child: GridView.count(
+                        crossAxisCount: 3,
+                      childAspectRatio: 1.8,
+                      children: controller.card.map((PertemuanCard card){
+                       return Container(
+                         decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(10),
+                           image: DecorationImage(
+                               image: NetworkImage(card.imageUrl),
+                               fit: BoxFit.cover
+                           ),
+                         ),
 
-                     child: Padding(
-                       padding: const EdgeInsets.all(15),
-                       child: Column(
-                         crossAxisAlignment: CrossAxisAlignment.start,
-                         mainAxisAlignment: MainAxisAlignment.spaceAround,
-                         children: [
-                           Text('Pertemuan ${card.id}', style: GoogleFonts.poppins(color: Colors.white70)),
-                           Text(card.title.replaceAll('\\n', '\n'), style: GoogleFonts.poppins(
-                               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold
-                           )),
-                           SizedBox(height: 50),
-                           ElevatedButton(onPressed: (){
-                             Get.toNamed('/assignment', arguments: [card.id, card.date]);
-                           },
-                               style: ElevatedButton.styleFrom(
-                                   backgroundColor: Colors.white
-                               ),
-                               child: Text('See more details', style: GoogleFonts.poppins(color: Colors.deepPurpleAccent),))
-                         ],
-                       ),
-                     ),
+                         child: Padding(
+                           padding: const EdgeInsets.all(15),
+                           child: Column(
+                             crossAxisAlignment: CrossAxisAlignment.start,
+                             mainAxisAlignment: MainAxisAlignment.spaceAround,
+                             children: [
+                               Text('Pertemuan ${card.id}', style: GoogleFonts.poppins(color: Colors.white70)),
+                               Text(card.title.replaceAll('\\n', '\n'), style: GoogleFonts.poppins(
+                                   color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold
+                               )),
+                               SizedBox(height: 50),
+                               ElevatedButton(onPressed: (){
+                                 Get.toNamed('/assignment', arguments: [card.id, card.date]);
+                               },
+                                   style: ElevatedButton.styleFrom(
+                                       backgroundColor: Colors.white
+                                   ),
+                                   child: Text('See more details', style: GoogleFonts.poppins(color: Colors.deepPurpleAccent),))
+                             ],
+                           ),
+                         ),
 
-                   );
-                  }).toList(),
-                ),
+                       );
+                      }).toList(),
+                    ),
+                  ),
+
+                ],
               ),
-
-            ],
-          ),
-        ),
+            ),
+          );
+        }
       ),
     );
   }
