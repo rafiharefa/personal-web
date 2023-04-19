@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
+import '../../../data/model_card.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
@@ -11,8 +12,6 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
 
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -24,10 +23,10 @@ class HomeView extends GetView<HomeController> {
         child: Lottie.network('https://assets4.lottiefiles.com/packages/lf20_8zzltjyc.json', animate: true, height: 80),
         ),
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-          child: Column(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+        child: Obx(() =>
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
@@ -36,50 +35,49 @@ class HomeView extends GetView<HomeController> {
               )),
               Text('by Risyad Rafi', style: GoogleFonts.poppins(color: Colors.black),),
 
-              SizedBox(height: 30),
+              SizedBox(height: 50),
 
-              Container(
-                height: 250,
-                width: 400,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  image: DecorationImage(
-                      image: AssetImage('assets/pertemuan7.png'),
-                    fit: BoxFit.cover
-                  ),
+              Expanded(
+                child: GridView.count(
+                    crossAxisCount: 3,
+                  childAspectRatio: 1.8,
+                  children: controller.card.map((PertemuanCard card){
+                   return Container(
+                     decoration: BoxDecoration(
+                       borderRadius: BorderRadius.circular(10),
+                       image: DecorationImage(
+                           image: NetworkImage(card.imageUrl),
+                           fit: BoxFit.cover
+                       ),
+                     ),
+
+                     child: Padding(
+                       padding: const EdgeInsets.all(15),
+                       child: Column(
+                         crossAxisAlignment: CrossAxisAlignment.start,
+                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+                         children: [
+                           Text('Pertemuan ${card.id}', style: GoogleFonts.poppins(color: Colors.white70)),
+                           Text(card.title.replaceAll('\\n', '\n'), style: GoogleFonts.poppins(
+                               color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold
+                           )),
+                           SizedBox(height: 50),
+                           ElevatedButton(onPressed: (){
+                             Get.toNamed('/assignment', arguments: [card.id, card.date]);
+                           },
+                               style: ElevatedButton.styleFrom(
+                                   backgroundColor: Colors.white
+                               ),
+                               child: Text('See more details', style: GoogleFonts.poppins(color: Colors.deepPurpleAccent),))
+                         ],
+                       ),
+                     ),
+
+                   );
+                  }).toList(),
                 ),
-
-                child: Padding(
-                  padding: const EdgeInsets.all(15),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text('Pertemuan 7', style: GoogleFonts.poppins(color: Colors.white70)),
-                      SizedBox(height: 10),
-                      Text('Concurreny In\nOperating System', style: GoogleFonts.poppins(
-                          color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold
-                      )),
-                      SizedBox(height: 100),
-                      ElevatedButton(onPressed: (){
-                        Get.toNamed('/assignment');
-                      },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white
-                          ),
-                          child: Text('See more details', style: GoogleFonts.poppins(color: Colors.deepPurpleAccent),))
-                    ],
-                  ),
-                ),
-
               ),
 
-              SizedBox(height: 30),
-
-              Divider(),
-
-              SizedBox(height: 30),
-
-              Center(child: Text('COMING SOON', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, fontSize: 50, color: Colors.black),))
             ],
           ),
         ),
