@@ -14,7 +14,7 @@ void main() async {
   );
   runApp(
     GetMaterialApp(
-      title: "Application",
+      title: "rafiharefa",
       initialRoute: AppPages.INITIAL,
       getPages: AppPages.routes,
       theme: ThemeData(
@@ -29,7 +29,7 @@ void main() async {
           fontWeight: FontWeight.bold,
           fontSize: 20
           ),
-          iconTheme: IconThemeData(
+          iconTheme: const IconThemeData(
             color: Colors.black,
           )
         ),

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:lottie/lottie.dart';
-import 'package:sistem_operasi/app/modules/home/views/home_view.dart';
+import 'package:sistem_operasi/app/modules/component/loading.dart';
 
+import '../../component/error.dart';
+import '../../component/footer.dart';
 import '../controllers/assignment_controller.dart';
+import 'content/content.dart';
 
 class AssignmentView extends GetView<AssignmentController> {
   const AssignmentView({Key? key}) : super(key: key);
@@ -17,29 +19,11 @@ class AssignmentView extends GetView<AssignmentController> {
         title: const Text('Assignment'),
         centerTitle: true,
       ),
-      body: Get.arguments == null ? Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Lottie.network('https://assets4.lottiefiles.com/packages/lf20_q2pevjuc.json', animate: true, width: 300),
-              SizedBox(height: 50),
-              ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.deepPurple,
-                    elevation: 0,
-                    fixedSize: Size(150, 30),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)
-                    ),
-                  ),
-                  onPressed: (){
-                Get.offAllNamed('/home');
-              }, child: Text('Back To Home', style: GoogleFonts.poppins(fontSize: 15),))
-            ],
-          )) : FutureBuilder(
+      body: Get.arguments == null ? const ShowError() :
+      FutureBuilder(
         future: controller.getContent(),
         builder: (context, snapshot) {
-          return snapshot.connectionState == ConnectionState.waiting ? Center(child: Lottie.network('https://assets6.lottiefiles.com/private_files/lf30_esg1l8r1.json')) :
+          return snapshot.connectionState == ConnectionState.waiting ? const Loading() :
           SingleChildScrollView(
             child: Center(
               child: Column(
@@ -54,55 +38,29 @@ class AssignmentView extends GetView<AssignmentController> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
-                              padding: EdgeInsets.all(8),
+                              padding: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
                                 border: Border.all(color: Colors.black, width: 2),
                                 borderRadius: BorderRadius.circular(3)
                               ),
                               child: Text('Pertemuan ${controller.id}', style: GoogleFonts.poppins(fontWeight: FontWeight.bold, color: Colors.black)),
                             ),
-                            SizedBox(height: 10),
-                            Text('CONCURRENCY IN OPERATING SYSTEM', style: GoogleFonts.poppins(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black)),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
+                            Text(controller.title.replaceAll('\\n', ' '), style: GoogleFonts.poppins(fontSize: 40, fontWeight: FontWeight.bold, color: Colors.black)),
+                            const SizedBox(height: 10),
                             Text('BY RISYAD RAFI / ${controller.date}',style: GoogleFonts.poppins(fontSize: 15, color: Colors.black45) ),
-                            SizedBox(height: 100),
+                            const SizedBox(height: 100),
                           ],
                         ),
 
-                        Obx(
-                            () {
-                              int x = 0;
-                              return Column(
-                                  children: controller.subtitle.map((doc){
-                                    return Column(
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(doc, style: GoogleFonts.poppins(fontSize: 25), textAlign: TextAlign.left,),
-                                          ],
-                                        ),
-                                        Text(controller.content.value[x++].replaceAll('\\n', '\n'),
-                                          style: GoogleFonts.poppins(), textAlign: TextAlign.left,
-                                        ),
-                                        SizedBox(height: 50),
-                                      ],
-                                    );
-                                  }
-                                  ).toList()
-                              );
-                            }
-                        )
+                        Content(controller: controller)
                       ],
                     ),
                   ),
 
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
 
-                  Container(
-                    color: Colors.black,
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                  ),
+                  const Footer(),
                 ],
               ),
             ),
@@ -112,3 +70,6 @@ class AssignmentView extends GetView<AssignmentController> {
     );
   }
 }
+
+
+

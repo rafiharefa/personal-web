@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_overrides
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 
@@ -10,6 +12,7 @@ class AssignmentController extends GetxController {
 
   String id = Get.arguments[0];
   String date = Get.arguments[1];
+  String title = Get.arguments[2];
 
   Future<void> getContent() async{
     var querySnapshot = await FirebaseFirestore.instance.collection('Pertemuan').doc(id)

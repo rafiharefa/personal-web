@@ -1,11 +1,15 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sistem_operasi/app/modules/component/footer.dart';
 
-import '../../../data/model_card.dart';
+import '../../component/loading.dart';
 import '../controllers/home_controller.dart';
+import 'component/card_pertemuan.dart';
 
 class HomeView extends GetView<HomeController> {
   const HomeView({Key? key}) : super(key: key);
@@ -26,12 +30,13 @@ class HomeView extends GetView<HomeController> {
       body: FutureBuilder(
         future: controller.getCard(),
         builder: (context, snapshot) {
-          return snapshot.connectionState == ConnectionState.waiting ? Center(child: Lottie.network('https://assets6.lottiefiles.com/private_files/lf30_esg1l8r1.json')) :
+          return snapshot.connectionState == ConnectionState.waiting ? Loading() :
            Padding(
             padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-            child: Obx(() =>
+            child:
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
 
                   Text('Operating System', style: GoogleFonts.poppins(
@@ -41,53 +46,15 @@ class HomeView extends GetView<HomeController> {
 
                   SizedBox(height: 50),
 
-                  Expanded(
-                    child: GridView.count(
-                        crossAxisCount: 3,
-                      childAspectRatio: 1.8,
-                      children: controller.card.map((PertemuanCard card){
-                       return Container(
-                         decoration: BoxDecoration(
-                           borderRadius: BorderRadius.circular(10),
-                           image: DecorationImage(
-                               image: NetworkImage(card.imageUrl),
-                               fit: BoxFit.cover
-                           ),
-                         ),
-
-                         child: Padding(
-                           padding: const EdgeInsets.all(15),
-                           child: Column(
-                             crossAxisAlignment: CrossAxisAlignment.start,
-                             mainAxisAlignment: MainAxisAlignment.spaceAround,
-                             children: [
-                               Text('Pertemuan ${card.id}', style: GoogleFonts.poppins(color: Colors.white70)),
-                               Text(card.title.replaceAll('\\n', '\n'), style: GoogleFonts.poppins(
-                                   color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold
-                               )),
-                               SizedBox(height: 50),
-                               ElevatedButton(onPressed: (){
-                                 Get.toNamed('/assignment', arguments: [card.id, card.date]);
-                               },
-                                   style: ElevatedButton.styleFrom(
-                                       backgroundColor: Colors.white
-                                   ),
-                                   child: Text('See more details', style: GoogleFonts.poppins(color: Colors.deepPurpleAccent),))
-                             ],
-                           ),
-                         ),
-
-                       );
-                      }).toList(),
-                    ),
-                  ),
+                  CardPertemuan(controller: controller),
 
                 ],
               ),
-            ),
           );
         }
       ),
     );
   }
 }
+
+
